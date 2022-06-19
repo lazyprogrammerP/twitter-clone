@@ -2,21 +2,13 @@ const express = require("express");
 const UserModel = require("../models/UserModel");
 const router = express.Router();
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 
 router.post("/sign-up", async (req, res) => {
   const data = req.body;
   const { firstName, lastName, username, email, password } = data;
 
-  if (
-    firstName &&
-    lastName &&
-    email &&
-    username &&
-    firstName.trim() &&
-    lastName.trim() &&
-    username.trim() &&
-    email.trim()
-  ) {
+  if (firstName && lastName && email && username && firstName.trim() && lastName.trim() && username.trim() && email.trim()) {
     const _user = await UserModel.findOne({
       $or: [{ username: username }, { email: email }],
     }).catch((error) => {
@@ -40,10 +32,10 @@ router.post("/sign-up", async (req, res) => {
 
       user = user.toObject();
 
-      req.session.user = user;
       delete user.password;
       res.status(200).json({
         ...user,
+        token: jwt.sign(user, "potatoman"),
       });
 
       return;
@@ -85,16 +77,16 @@ router.post("/sign-in", async (req, res) => {
       });
     });
 
-    user = user.toObject();
-
     if (user) {
+      user = user.toObject();
+
       const result = await bcrypt.compare(password, user.password);
 
       if (result) {
-        req.session.user = user;
         delete user.password;
         res.status(200).json({
           ...user,
+          token: jwt.sign(user, "potatoman"),
         });
 
         return;
@@ -104,6 +96,10 @@ router.post("/sign-in", async (req, res) => {
         message: "Incorrect credentials.",
       });
     }
+
+    res.status(404).json({
+      message: "Account not found.",
+    });
 
     return;
   }

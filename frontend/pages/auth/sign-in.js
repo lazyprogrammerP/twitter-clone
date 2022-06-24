@@ -3,9 +3,9 @@ import router from "next/router";
 import { useState } from "react";
 import { useSnackbar } from "react-simple-snackbar";
 import { At, Lock } from "tabler-icons-react";
+import TailwindButton from "../../src/components/TailwindButton/TailwindButton";
+import TailwindInput from "../../src/components/TailwindInput/TailwindInput";
 import Server from "../../src/Server";
-import TailwindButton from "../../src/TailwindButton/TailwindButton";
-import TailwindInput from "../../src/TailwindInput/TailwindInput";
 
 const SignInPage = () => {
   const [signingIn, setSigningIn] = useState(false);

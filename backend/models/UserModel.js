@@ -9,9 +9,7 @@ const UserSchema = new mongoose.Schema(
     password: { type: String, required: true },
     profilePic: { type: String, default: "/assets/images/defaultPFP.png" },
   },
-  {
-    timestamps: true,
-  }
+  { timestamps: true }
 );
 
 const UserModel = mongoose.model("User", UserSchema);

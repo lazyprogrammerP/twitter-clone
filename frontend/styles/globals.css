@@ -19,3 +19,8 @@
     width: calc(100% - 576px);
   }
 }
+
+.postForm:empty::before {
+  content: "What's on your mind?";
+  color: rgb(107, 114, 128);
+}

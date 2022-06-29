@@ -1,6 +1,6 @@
 import Link from "next/link";
-import { useEffect, useState } from "react";
 import { Bookmarks, DotsCircleHorizontal, Hash, Home as HomeIcon, List, MessageDots, Notification, User } from "tabler-icons-react";
+import useUser from "../../hooks/useUser";
 import TailwindButton from "../TailwindButton/TailwindButton";
 import LogoSVG from "./LogoSVG";
 
@@ -51,12 +51,7 @@ const sidebarItems = [
 ];
 
 const Sidebar = () => {
-  const [user, setUser] = useState({});
-
-  useEffect(() => {
-    setUser(JSON.parse(localStorage.getItem("user")));
-  }, []);
-
+  const { user } = useUser();
   return (
     <div className={"overflow-auto p-4 pb-2 flex justify-between border-r-gray-800 absolute bottom-0 w-full border-t-2 border-t-gray-800 md:static md:w-72 md:border-t-0 md:border-r-2 md:flex-col md:h-screen"}>
       {/* Upper Sidebar */}

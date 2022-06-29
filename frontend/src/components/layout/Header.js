@@ -1,12 +1,8 @@
-import { useEffect, useState } from "react";
 import { Menu2 } from "tabler-icons-react";
+import useUser from "../../hooks/useUser";
 
 const Header = ({ pageName }) => {
-  const [user, setUser] = useState({});
-
-  useEffect(() => {
-    setUser(JSON.parse(localStorage.getItem("user")));
-  }, []);
+  const { user } = useUser();
 
   return (
     <div className={"w-full p-3 md:p-3 flex items-center justify-between border-b-2 border-b-gray-800"}>

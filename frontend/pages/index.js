@@ -1,5 +1,6 @@
 import Header from "../src/components/layout/Header";
 import Sidebar from "../src/components/layout/Sidebar";
+import PostForm from "../src/components/PostForm/PostForm";
 
 export default function Home() {
   return (
@@ -11,6 +12,9 @@ export default function Home() {
 
         <div className={"middle-row"}>
           <Header pageName={"Home"} />
+
+          {/* Post Form */}
+          <PostForm />
         </div>
 
         <div className={"w-72 h-screen overflow-auto border-l-2 border-l-gray-800 hidden lg:block"}></div>

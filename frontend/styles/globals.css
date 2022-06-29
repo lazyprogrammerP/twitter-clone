@@ -3,3 +3,19 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.middle-row {
+  width: 100%;
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  .middle-row {
+    width: calc(100% - 288px);
+  }
+}
+
+@media (min-width: 1024px) {
+  .middle-row {
+    width: calc(100% - 576px);
+  }
+}

@@ -1,6 +1,6 @@
 const LogoSVG = ({ dark }) => {
   return (
-    <svg viewBox={"0 0 24 24"} ariaHidden={"true"} className={`${dark ? "fill-gray-600" : "fill-gray-200"} w-8 h-8`}>
+    <svg viewBox={"0 0 24 24"} aria-hidden={"true"} className={`${dark ? "fill-gray-600" : "fill-gray-200"} w-8 h-8`}>
       <g>
         <path
           d={

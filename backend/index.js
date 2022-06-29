@@ -21,6 +21,10 @@ const PORT = 8000;
 const authRoutes = require("./routes/authRoutes");
 app.use("/auth", authRoutes);
 
+// Post Routes
+const postRoutes = require("./routes/postRoutes");
+app.use("/api/posts", validateJWT, postRoutes);
+
 app.get("/", validateJWT, (req, res) => {
   res.status(200).send("Server is up and running!");
 });

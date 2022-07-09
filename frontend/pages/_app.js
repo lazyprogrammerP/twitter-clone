@@ -1,12 +1,16 @@
 import SnackbarProvider from "react-simple-snackbar";
 import "../styles/globals.css";
+import { Provider } from "react-redux";
+import { store, wrapper } from "../src/redux/store";
 
 function MyApp({ Component, pageProps }) {
   return (
-    <SnackbarProvider>
-      <Component {...pageProps} />
-    </SnackbarProvider>
+    <Provider store={store}>
+      <SnackbarProvider>
+        <Component {...pageProps} />
+      </SnackbarProvider>
+    </Provider>
   );
 }
 
-export default MyApp;
+export default wrapper.withRedux(MyApp);

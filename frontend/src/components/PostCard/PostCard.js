@@ -1,7 +1,7 @@
 import { Heart, MessageCircle, Refresh } from "tabler-icons-react";
 import getTimeDifference from "../../utils/getTimeDifference";
 
-const PostActionButton = ({ color, Icon, label }) => {
+const PostActionButton = ({ color, Icon, value, label }) => {
   const colorDictionary = {
     red: "text-red-300 hover:bg-red-300",
     green: "text-green-300 hover:bg-green-300",
@@ -11,7 +11,12 @@ const PostActionButton = ({ color, Icon, label }) => {
   return (
     <button className={`flex items-center gap-2 p-2 transition-all duration-200 rounded-md ${colorDictionary[color]} hover:bg-opacity-20 cursor-pointer`}>
       <Icon />
-      <span className={"text-sm"}>{label}</span>
+
+      <div className={"text-sm"}>
+        <span>{value}</span>
+        &nbsp;
+        <span className={"hidden sm:inline"}>{label}</span>
+      </div>
     </button>
   );
 };
@@ -43,9 +48,9 @@ const PostCard = ({ content, postedBy, updatedAt }) => {
 
           {/* Postcard Action */}
           <div className={"flex items-center justify-between mt-3"}>
-            <PostActionButton Icon={Heart} />
-            <PostActionButton Icon={MessageCircle} />
-            <PostActionButton Icon={Refresh} />
+            <PostActionButton Icon={Heart} value={0} label={"Likes"} color={"red"} />
+            <PostActionButton Icon={MessageCircle} value={0} label={"Replies"} color={"green"} />
+            <PostActionButton Icon={Refresh} value={0} label={"Retweets"} color={"gray"} />
           </div>
         </div>
       </div>

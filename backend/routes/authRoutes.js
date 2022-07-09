@@ -95,6 +95,8 @@ router.post("/sign-in", async (req, res) => {
       res.status(400).json({
         message: "Incorrect credentials.",
       });
+
+      return;
     }
 
     res.status(404).json({

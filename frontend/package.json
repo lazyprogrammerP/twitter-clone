@@ -13,9 +13,12 @@
     "better-react-spinkit": "^2.0.4",
     "lodash": "^4.17.21",
     "next": "12.1.6",
+    "next-redux-wrapper": "^7.0.5",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "react-redux": "^8.0.2",
     "react-simple-snackbar": "^1.1.11",
+    "redux": "^4.2.0",
     "tabler-icons-react": "^1.49.0"
   },
   "devDependencies": {

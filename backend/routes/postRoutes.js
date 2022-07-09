@@ -7,6 +7,9 @@ router.get("/", async (req, res) => {
   const postsPerPage = 15;
   const page = req.query.page || 0;
 
+  const totalPosts = await PostModel.collection.countDocuments();
+  const maxPage = totalPosts / postsPerPage > Math.floor(totalPosts / postsPerPage) ? Math.floor(totalPosts / postsPerPage) + 1 : totalPosts / postsPerPage;
+
   let posts = await PostModel.find()
     .skip(page * postsPerPage)
     .limit(postsPerPage)
@@ -20,7 +23,7 @@ router.get("/", async (req, res) => {
       });
     });
 
-  res.status(200).json(posts);
+  res.status(200).json({ posts, maxPage });
 });
 
 router.post("/", async (req, res) => {

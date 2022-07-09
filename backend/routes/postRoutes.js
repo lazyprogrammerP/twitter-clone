@@ -3,8 +3,24 @@ const PostModel = require("../models/PostModel");
 const UserModel = require("../models/UserModel");
 const router = express.Router();
 
-router.get("/", (req, res) => {
-  res.send("Get posts");
+router.get("/", async (req, res) => {
+  const postsPerPage = 15;
+  const page = req.query.page || 0;
+
+  let posts = await PostModel.find()
+    .skip(page * postsPerPage)
+    .limit(postsPerPage)
+    .populate("postedBy", "-password")
+    .sort({ updatedAt: -1 })
+    .catch((err) => {
+      console.log(err);
+
+      res.status(500).json({
+        message: "Something went wrong.",
+      });
+    });
+
+  res.status(200).json(posts);
 });
 
 router.post("/", async (req, res) => {

@@ -1,7 +1,9 @@
 import { useRef, useState } from "react";
+import { useSelector } from "react-redux";
 import { useSnackbar } from "react-simple-snackbar";
 import { CalendarEvent, Microphone, MoodCry, Photo, Video } from "tabler-icons-react";
 import useUser from "../../hooks/useUser";
+import usePostsReducer from "../../redux/utils/usePostsReducer";
 import Server from "../../Server";
 import TailwindButton from "../TailwindButton/TailwindButton";
 import TailwindInput from "../TailwindInput/TailwindInput";
@@ -39,6 +41,9 @@ const PostForm = () => {
 
   const spanRef = useRef();
 
+  const posts = useSelector((state) => state.posts.posts);
+  const { setPosts } = usePostsReducer();
+
   const [posting, setPosting] = useState(false);
 
   const [openSuccess] = useSnackbar({ style: { backgroundColor: "green", color: "white", fontFamily: "monospace" } });
@@ -52,6 +57,7 @@ const PostForm = () => {
       content: spanRef.current.textContent,
     })
       .then((res) => {
+        setPosts([res.data, ...posts]);
         openSuccess("Post was successfully published!");
         setPosting(false);
         spanRef.current.innerHTML = "";

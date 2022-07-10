@@ -21,6 +21,39 @@ const PostActionButton = ({ color, Icon, value, label }) => {
   );
 };
 
+export const PostCardSkeleton = () => {
+  return (
+    <div className={"w-full p-4 border-b-2 border-b-gray-800"}>
+      <div className={"flex items-start gap-2"}>
+        <div className={"bg-gray-800 rounded-full overflow-hidden w-8 h-8 p-2 animate-pulse"} />
+
+        <div className={"w-full"}>
+          {/* Postcard Header */}
+          <div className={"flex items-center gap-2"}>
+            <div className={"flex items-center gap-2"}>
+              <h5 className={"w-32 md:w-40 bg-gray-800 p-2 rounded-md animate-pulse"} />
+
+              <p className={"w-24 md:w-32 bg-gray-800 p-2 rounded-md animate-pulse"} />
+            </div>
+            &#183;
+            <p className={"w-16 bg-gray-800 p-2 rounded-md animate-pulse"} />
+          </div>
+
+          {/* Postcard Body */}
+          <p className={"mt-1 w-full h-20 bg-gray-800 p-2 rounded-md animate-pulse"} />
+
+          {/* Postcard Action */}
+          <div className={"flex items-center justify-between mt-3"}>
+            <PostActionButton Icon={Heart} value={0} label={"Likes"} color={"red"} />
+            <PostActionButton Icon={MessageCircle} value={0} label={"Replies"} color={"green"} />
+            <PostActionButton Icon={Refresh} value={0} label={"Retweets"} color={"gray"} />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 const PostCard = ({ content, postedBy, updatedAt }) => {
   return (
     <div className={"w-full p-4 border-b-2 border-b-gray-800"}>

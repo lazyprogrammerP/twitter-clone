@@ -52,6 +52,7 @@ const sidebarItems = [
 
 const Sidebar = () => {
   const { user } = useUser();
+
   return (
     <div className={"w-72 h-screen overflow-auto p-4 pb-2 flex flex-col justify-between border-r-2 border-r-gray-800 absolute -left-72 md:static"}>
       {/* Upper Sidebar */}
@@ -85,15 +86,15 @@ const Sidebar = () => {
       <div className={"p-2 rounded-md cursor-pointer items-center justify-between gap-2 transition-colors duration-200 hover:bg-gray-600 hover:bg-opacity-30 hidden md:flex"}>
         <div className={"flex items-center"}>
           <div className={"bg-gray-200 rounded-full overflow-hidden w-8 h-8 p-2"}>
-            <img src={user.profilePic} />
+            <img src={user?.profilePic} />
           </div>
 
           <div className={"ml-2"}>
             <h5 className={"text-sm font-semibold"}>
-              {user.firstName} {user.lastName}
+              {user?.firstName} {user?.lastName}
             </h5>
 
-            <p className={"-mt-1 text-xs text-gray-500"}>@{user.username}</p>
+            <p className={"-mt-1 text-xs text-gray-500"}>@{user?.username}</p>
           </div>
         </div>
 

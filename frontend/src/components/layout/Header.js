@@ -8,7 +8,7 @@ const Header = ({ pageName }) => {
     <div className={"w-full p-3 md:p-3 flex items-center justify-between border-b-2 border-b-gray-800"}>
       <div className={"flex items-center"}>
         <div className={"bg-gray-200 rounded-full overflow-hidden w-8 h-8 p-2 mr-2 md:hidden"}>
-          <img src={user.profilePic} />
+          <img src={user?.profilePic} />
         </div>
 
         <h5 className={"font-semibold sm:text-lg md:text-xl"}>{pageName}</h5>

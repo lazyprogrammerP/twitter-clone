@@ -62,11 +62,11 @@ const Posts = () => {
       {posts.map((post, index) =>
         index === posts.length - 1 ? (
           <div key={post._id} ref={lastElementRef}>
-            <PostCard {...post} />
+            <PostCard {...post} idx={index} />
           </div>
         ) : (
           <div key={post._id}>
-            <PostCard {...post} />
+            <PostCard {...post} idx={index} />
           </div>
         )
       )}

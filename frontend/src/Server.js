@@ -11,9 +11,8 @@ Server.interceptors.request.use((axiosConfig) => {
 
 Server.interceptors.response.use(
   (response) => {
-    console.log(response.headers);
-    if (response.headers["x-auth-token"] && response.headers["x-auth-token"] !== localStorage.getItem("x-auth-token")) {
-      localStorage.setItem("x-auth-token", response.headers["x-auth-token"]);
+    if (response["headers"]["x-auth-token"] && response["headers"]["x-auth-token"] !== localStorage.getItem("x-auth-token")) {
+      localStorage.setItem("x-auth-token", response["headers"]["x-auth-token"]);
     }
     return response;
   },

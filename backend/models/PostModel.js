@@ -6,6 +6,8 @@ const PostSchema = new mongoose.Schema(
     postedBy: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
     pinned: { type: Boolean, default: false },
     likes: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
+    retweetData: { type: mongoose.Schema.Types.ObjectId, ref: "Post" },
+    retweetedBy: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
   },
   { timestamps: true }
 );

@@ -9,6 +9,7 @@ const UserSchema = new mongoose.Schema(
     password: { type: String, required: true },
     profilePic: { type: String, default: "/assets/images/defaultPFP.png" },
     likedPosts: [{ type: mongoose.Schema.Types.ObjectId, ref: "Post" }],
+    retweetedPosts: [{ type: mongoose.Schema.Types.ObjectId, ref: "Post" }],
   },
   { timestamps: true }
 );

@@ -13,7 +13,7 @@ app.use(express.json());
 const validateJWT = require("./middlewares/validateJWT");
 
 const Database = require("./database");
-new Database(`mongodb+srv://admin:admin123@cluster0.c1lai.mongodb.net/?retryWrites=true&w=majority`);
+new Database(`mongodb+srv://admin:admin123@cluster0.c1lai.mongodb.net/TwitterDB?retryWrites=true&w=majority`);
 
 const PORT = 8000;
 

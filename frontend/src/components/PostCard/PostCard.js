@@ -7,6 +7,8 @@ import useUser from "../../hooks/useUser";
 import usePostsReducer from "../../redux/utils/usePostsReducer";
 import Server from "../../Server";
 import getTimeDifference from "../../utils/getTimeDifference";
+import Modal from "../Modal/Modal";
+import PostForm from "../PostForm/PostForm";
 
 const PostActionButton = ({ color, Icon, fill = "transparent", showBackground, value, label, onClick }) => {
   const colorDictionary = {
@@ -63,7 +65,7 @@ export const PostCardSkeleton = () => {
   );
 };
 
-const PostCard = ({ content, postedBy, createdAt, _id, idx, likes = [], retweetData = {}, retweetedBy }) => {
+const PostCard = ({ content, postedBy, createdAt, _id, idx, likes = [], retweetData = {}, retweetedBy, replyTo, replies = [] }) => {
   const posts = useSelector((state) => state.posts.posts);
   const { setPosts } = usePostsReducer();
 
@@ -73,7 +75,11 @@ const PostCard = ({ content, postedBy, createdAt, _id, idx, likes = [], retweetD
   const [retweeting, setRetweeting] = useState(false);
   const [retweetedByUser, setRetweetedByUser] = useState(false);
 
-  const [openSuccess] = useSnackbar({ style: { backgroundColor: "green", color: "white", fontFamily: "monospace" } });
+  const [openReplyModal, setOpenReplyModal] = useState(false);
+  const toggleReplyModal = () => {
+    setOpenReplyModal((prev) => !prev);
+  };
+
   const [openError] = useSnackbar({ style: { backgroundColor: "red", color: "white", fontFamily: "monospace" } });
 
   const updatePost = (updatedPost) => {
@@ -139,13 +145,15 @@ const PostCard = ({ content, postedBy, createdAt, _id, idx, likes = [], retweetD
             <p className={"text-sm text-gray-500"}>{getTimeDifference(new Date(createdAt))} ago</p>
           </div>
 
+          {replyTo ? <p className={"text-xs text-gray-500 mb-3"}>Replying to @{replyTo.postedBy.username}</p> : <></>}
+
           {/* Postcard Body */}
           <p className={"mt-1 text-sm"} dangerouslySetInnerHTML={{ __html: retweetData.content ? retweetData.content : content }} />
 
           {/* Postcard Action */}
           <div className={"flex items-center justify-between mt-3"}>
             <PostActionButton Icon={Heart} fill={likedByUser ? "rgb(252, 165, 165)" : "transparent"} value={likes?.length} label={"Likes"} color={"red"} onClick={onLike} />
-            <PostActionButton Icon={MessageCircle} value={0} label={"Replies"} color={"green"} />
+            <PostActionButton Icon={MessageCircle} value={replies.length} label={"Replies"} color={"green"} onClick={toggleReplyModal} />
             {!retweetData.content ? (
               <PostActionButton
                 Icon={!retweeting ? (retweetedByUser ? RefreshOff : Refresh) : () => <Wave color={"#fff"} />}
@@ -161,6 +169,40 @@ const PostCard = ({ content, postedBy, createdAt, _id, idx, likes = [], retweetD
           </div>
         </div>
       </div>
+
+      <Modal open={openReplyModal} onClose={() => setOpenReplyModal(false)} title={"Replying To"}>
+        <div className={"p-4 border-b-2 border-b-gray-800"}>
+          {retweetData.content ? <p className={"text-xs text-gray-500 mb-2"}>Retweeted By @{postedBy.username}</p> : <></>}
+
+          <div className={"flex items-start gap-2"}>
+            <div className={"bg-gray-200 rounded-full overflow-hidden w-8 h-8 p-2"}>
+              <img src={postedBy.profilePic} />
+            </div>
+
+            <div className={"w-full"}>
+              {/* Postcard Header */}
+              <div className={"flex items-center gap-2"}>
+                <div className={"flex items-center gap-1"}>
+                  <h5 className={"text-sm font-semibold"}>
+                    {retweetData.postedBy?.firstName || postedBy.firstName} {retweetData.postedBy?.lastName || postedBy.lastName}
+                  </h5>
+
+                  <p className={"text-xs"}>@{retweetData.postedBy?.username || postedBy.username}</p>
+                </div>
+                &#183;
+                <p className={"text-sm text-gray-500"}>{getTimeDifference(new Date(createdAt))} ago</p>
+              </div>
+
+              {/* Postcard Body */}
+              <p className={"mt-1 text-sm"} dangerouslySetInnerHTML={{ __html: retweetData.content ? retweetData.content : content }} />
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <PostForm replyTo={_id} afterPosted={toggleReplyModal} />
+        </div>
+      </Modal>
     </div>
   );
 };

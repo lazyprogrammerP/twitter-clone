@@ -36,7 +36,7 @@ const postActionItems = [
   },
 ];
 
-const PostForm = () => {
+const PostForm = ({ replyTo, afterPosted }) => {
   const { user } = useUser();
 
   const spanRef = useRef();
@@ -55,10 +55,12 @@ const PostForm = () => {
     setPosting(true);
     Server.post("api/posts/", {
       content: spanRef.current.innerHTML,
+      replyTo,
     })
       .then((res) => {
         setPosts([res.data, ...posts]);
         openSuccess("Post was successfully published!");
+        afterPosted?.();
         setPosting(false);
         spanRef.current.innerHTML = "";
       })
@@ -69,7 +71,7 @@ const PostForm = () => {
   };
 
   return (
-    <form onSubmit={onPost} className={"p-4 border-b-2 border-b-gray-800"}>
+    <form onSubmit={onPost} className={`p-4 ${replyTo ? "" : "border-b-2 border-b-gray-800"}`}>
       <div className={"flex items-start bg-gray-800 p-4 rounded-md"}>
         <div className={"bg-gray-200 rounded-full overflow-hidden w-8 h-8 p-2 mr-2"}>
           <img src={user?.profilePic} />

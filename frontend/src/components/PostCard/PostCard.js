@@ -140,7 +140,7 @@ const PostCard = ({ content, postedBy, createdAt, _id, idx, likes = [], retweetD
           </div>
 
           {/* Postcard Body */}
-          <p className={"mt-1 text-sm"}>{retweetData.content || content}</p>
+          <p className={"mt-1 text-sm"} dangerouslySetInnerHTML={{ __html: retweetData.content ? retweetData.content : content }} />
 
           {/* Postcard Action */}
           <div className={"flex items-center justify-between mt-3"}>

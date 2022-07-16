@@ -54,7 +54,7 @@ const PostForm = () => {
 
     setPosting(true);
     Server.post("api/posts/", {
-      content: spanRef.current.textContent,
+      content: spanRef.current.innerHTML,
     })
       .then((res) => {
         setPosts([res.data, ...posts]);

@@ -16,6 +16,7 @@ router.get("/", async (req, res) => {
     .limit(postsPerPage)
     .populate("postedBy", "-password")
     .populate("retweetData")
+    .populate("replyTo")
     .sort({ createdAt: -1 })
     .catch((err) => {
       console.log(err);
@@ -25,7 +26,7 @@ router.get("/", async (req, res) => {
       });
     });
 
-  posts = await UserModel.populate(posts, { path: "retweetData.postedBy", select: "-password" });
+  posts = await UserModel.populate(posts, { path: "retweetData.postedBy replyTo.postedBy", select: "-password" });
 
   res.status(200).json({ posts, maxPage });
 });
@@ -41,6 +42,10 @@ router.post("/", async (req, res) => {
 
   const postData = { content: req.body.content, postedBy: req.user };
 
+  if (req.body.replyTo) {
+    postData["replyTo"] = req.body.replyTo;
+  }
+
   let post = await PostModel.create(postData).catch((err) => {
     console.log(err);
 
@@ -49,9 +54,24 @@ router.post("/", async (req, res) => {
     });
   });
 
+  if (req.body.replyTo) {
+    await PostModel.findByIdAndUpdate(req.body.replyTo, {
+      $addToSet: {
+        replies: post._id,
+      },
+    }).catch((err) => {
+      console.log(err);
+
+      res.status(500).json({
+        message: "Something went wrong.",
+      });
+    });
+  }
+
   post = post.toObject();
 
-  post = await UserModel.populate(post, { path: "postedBy", select: "-password" });
+  post = await PostModel.populate(post, { path: "replyTo" });
+  post = await UserModel.populate(post, { path: "postedBy replyTo.postedBy", select: "-password" });
 
   res.status(200).json(post);
 });
